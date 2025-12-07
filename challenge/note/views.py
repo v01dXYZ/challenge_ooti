@@ -5,6 +5,7 @@ from rest_framework import viewsets, permissions
 
 from django.shortcuts import render
 
+
 # Create your views here.
 class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()

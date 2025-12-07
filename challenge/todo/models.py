@@ -1,6 +1,7 @@
 from django.db import models as mdl
 import uuid
 
+
 # Create your models here.
 class Todo(mdl.Model):
     class Status(mdl.IntegerChoices):

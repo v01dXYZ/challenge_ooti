@@ -14,6 +14,7 @@ URL_TODO = f"{BASE_URL}/todo/"
 URL_NOTE = f"{BASE_URL}/note/"
 URL_TOKEN = f"{BASE_URL}/login/"
 
+
 def test_sanity_todo(session):
     data = {
         "status": 0,
@@ -37,6 +38,7 @@ def test_sanity_todo(session):
     todos = r.json()
 
     assert any(el == created_todo for el in todos)
+
 
 def test_sanity_note(session):
     data = {
@@ -68,7 +70,7 @@ def session():
     s = requests.Session()
     r = s.post(
         URL_TOKEN,
-        json={"username": "test", "password": "mypass"*2},
+        json={"username": "test", "password": "mypass" * 2},
     )
     token = r.json()["token"]
     s.headers["Authorization"] = " ".join(("Token", token))

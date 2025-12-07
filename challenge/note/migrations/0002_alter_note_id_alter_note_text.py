@@ -5,20 +5,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('note', '0001_initial'),
+        ("note", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='note',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            model_name="note",
+            name="id",
+            field=models.UUIDField(
+                default=uuid.uuid4, editable=False, primary_key=True, serialize=False
+            ),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='text',
+            model_name="note",
+            name="text",
             field=models.CharField(blank=True),
         ),
     ]

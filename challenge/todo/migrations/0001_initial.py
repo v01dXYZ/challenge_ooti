@@ -5,20 +5,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Todo',
+            name="Todo",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=64)),
-                ('status', models.IntegerField(choices=[(0, 'Todo'), (1, 'Done')])),
-                ('note_id', models.UUIDField(null=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("title", models.CharField(max_length=64)),
+                ("status", models.IntegerField(choices=[(0, "Todo"), (1, "Done")])),
+                ("note_id", models.UUIDField(null=True)),
             ],
         ),
     ]
