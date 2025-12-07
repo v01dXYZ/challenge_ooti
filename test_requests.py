@@ -2,7 +2,7 @@
 To run this test suite, you have to create first a user with a username/password.
 """
 
-import http
+from http import HTTPStatus
 
 import pytest
 import requests
@@ -24,7 +24,7 @@ def test_sanity_todo(session):
         },
     )
 
-    assert r.status_code == http.HTTPStatus.CREATED
+    assert r.status_code == HTTPStatus.CREATED
     created_todo = r.json()
 
     r = session.get(
@@ -45,13 +45,13 @@ def test_sanity_note(session):
         },
     )
 
-    assert r.status_code == http.HTTPStatus.CREATED
+    assert r.status_code == HTTPStatus.CREATED
     created_note = r.json()
 
     r = session.get(
         URL_NOTE,
     )
-    assert r.status_code == 200
+    assert r.status_code == HTTPStatus.OK
     notes = r.json()
 
     assert any(el == created_note for el in notes)
