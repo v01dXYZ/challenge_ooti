@@ -15,17 +15,20 @@ URL_NOTE = f"{BASE_URL}/note/"
 URL_TOKEN = f"{BASE_URL}/login/"
 
 def test_sanity_todo(session):
+    data = {
+        "status": 0,
+        "title": "T0",
+    }
     r = session.post(
         URL_TODO,
-        json={
-            "id": 0,
-            "status": "0",
-            "title": "T0",
-        },
+        json=data,
     )
 
     assert r.status_code == HTTPStatus.CREATED
     created_todo = r.json()
+
+    for k, v in data.items():
+        assert created_todo[k] == v
 
     r = session.get(
         URL_TODO,
@@ -36,17 +39,20 @@ def test_sanity_todo(session):
     assert any(el == created_todo for el in todos)
 
 def test_sanity_note(session):
+    data = {
+        "text": "TXT0",
+    }
     r = session.post(
         URL_NOTE,
-        json={
-            "id": 0,
-            "status": "0",
-            "title": "T0",
-        },
+        json=data,
     )
 
     assert r.status_code == HTTPStatus.CREATED
+
     created_note = r.json()
+
+    for k, v in data.items():
+        assert created_note[k] == v
 
     r = session.get(
         URL_NOTE,
@@ -61,7 +67,7 @@ def test_sanity_note(session):
 def session():
     s = requests.Session()
     r = s.post(
-        "http://localhost:9999/login/",
+        URL_TOKEN,
         json={"username": "test", "password": "mypass"*2},
     )
     token = r.json()["token"]
