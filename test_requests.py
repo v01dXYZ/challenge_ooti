@@ -78,6 +78,8 @@ def django_server():
         except:
             time.sleep(1)
 
+    assert False, "Server not available"
+
 
 @pytest.fixture
 def session(django_server):
