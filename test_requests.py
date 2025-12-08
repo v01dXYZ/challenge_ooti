@@ -6,9 +6,12 @@ from http import HTTPStatus
 
 import pytest
 import requests
+import os
+import time
 
-
-BASE_URL = "http://localhost:9999"
+# normally with pytest we should use a conftest.py but I want to keep it as one file.
+PORT = os.getenv("DJANGO_SERVER_PORT", 9999)
+BASE_URL = f"http://localhost:{PORT}"
 
 URL_TODO = f"{BASE_URL}/todo/"
 URL_NOTE = f"{BASE_URL}/note/"
@@ -66,7 +69,18 @@ def test_sanity_note(session):
 
 
 @pytest.fixture
-def session():
+def django_server():
+    s = requests.Session()
+    for _ in range(10):
+        try:
+            s.get(URL_TOKEN)
+            return
+        except:
+            time.sleep(1)
+
+
+@pytest.fixture
+def session(django_server):
     s = requests.Session()
     r = s.post(
         URL_TOKEN,
