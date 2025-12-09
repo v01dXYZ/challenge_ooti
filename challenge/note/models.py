@@ -5,3 +5,5 @@ import uuid
 class Note(mdl.Model):
     id = mdl.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     text = mdl.CharField(blank=True)
+
+    todos = mdl.ManyToManyField("todo.Todo", related_name="+", blank=True)

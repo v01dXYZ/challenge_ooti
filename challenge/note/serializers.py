@@ -9,4 +9,5 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "text",
+            "todos",
         ]

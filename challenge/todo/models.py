@@ -11,4 +11,4 @@ class Todo(mdl.Model):
     id = mdl.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = mdl.CharField(max_length=64)
     status = mdl.IntegerField(choices=Status)
-    note_id = mdl.UUIDField(null=True)
+    note = mdl.ForeignKey("note.Note", null=True, on_delete=mdl.SET_NULL)
