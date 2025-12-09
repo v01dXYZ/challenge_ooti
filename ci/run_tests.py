@@ -42,4 +42,4 @@ with tempfile.TemporaryDirectory() as temp_dir:
             shell=True,
         )
 
-        m.kill()
+        m.terminate()
