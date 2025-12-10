@@ -12,17 +12,25 @@ ooti_root = pathlib.Path(__file__).parent.parent
 manage_py = ooti_root / "manage.py"
 packages_txt = ooti_root / "packages.txt"
 
+superuser_name = "test"
+superuser_password = "mypass" * 2
+
 random_port = random.randint(1 << 10, 1 << 16)
+
 with tempfile.TemporaryDirectory() as temp_dir:
     logging.info(f"temp_dir: {temp_dir}")
-    activate = f". {temp_dir}/venv/bin/activate"
+    venv_bin = pathlib.Path(temp_dir) / "venv" / "bin"
+    activate = f". {venv_bin}/activate"
+    python = venv_bin / "python"
+    pytest = venv_bin / "pytest"
+
     cmds = [
         f"python3 -m venv {temp_dir}/venv",
         activate,
         f"pip install -r {packages_txt}",
         f"{manage_py} makemigrations",
         f"{manage_py} migrate",
-        f"DJANGO_SUPERUSER_PASSWORD=mypassmypass {manage_py} createsuperuser --noinput --username test --email none@localhost",
+        f"DJANGO_SUPERUSER_PASSWORD={superuser_password} {manage_py} createsuperuser --noinput --username {superuser_name} --email none@localhost",
     ]
     subprocess.run(
         "\n".join(cmds),
@@ -31,15 +39,19 @@ with tempfile.TemporaryDirectory() as temp_dir:
     )
 
     with subprocess.Popen(
-        "\n".join([activate, f"{manage_py} runserver {random_port}"]),
-        shell=True,
+        [
+            python,
+            manage_py,
+            "runserver",
+            str(random_port),
+        ],
         cwd=temp_dir,
     ) as m:
         subprocess.run(
-            "\n".join(
-                [activate, f"DJANGO_SERVER_PORT={random_port} pytest test_requests.py"]
-            ),
-            shell=True,
+            [pytest, "test_requests.py"],
+            env={
+                "DJANGO_SERVER_PORT": str(random_port),
+            },
         )
 
         m.terminate()
