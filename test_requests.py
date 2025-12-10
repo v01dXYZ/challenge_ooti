@@ -71,11 +71,11 @@ def test_sanity_note(session):
 @pytest.fixture
 def django_server():
     s = requests.Session()
-    for _ in range(10):
+    for _ in range(3):
         try:
             s.get(URL_TOKEN)
             return
-        except:
+        except requests.exceptions.RequestException:
             time.sleep(1)
 
     assert False, "Server not available"
