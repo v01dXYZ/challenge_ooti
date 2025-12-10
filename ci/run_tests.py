@@ -3,7 +3,6 @@ import subprocess
 import tempfile
 import random
 import logging
-import os
 import pathlib
 
 logging.basicConfig(level=logging.INFO)
